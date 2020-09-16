@@ -24,7 +24,7 @@ def randomWalk3D(steps, stepLeng, x0, y0, z0):
         '''
         return x, y, z
 
-totalNum = 1000
+totalNum = 5000000
 steps = 200
 stepLeng = 0.5
 x0 = y0 = z0 = 5
@@ -45,8 +45,9 @@ for i in range(totalNum):
 plt.title('N = {}'.format(totalNum))
 ax.scatter3D(xr,yr,zr,cmap = 'Blues')
 plt.savefig("./{}p.png".format(totalNum))
-plt.show()
 fig, ax = plt.subplots(1,1)
-ax.hist(r,bins = 20)
+plt.subplot(1,1,1)
+plt.hist(r,bins = 20)
+plt.title('N={}'.format(totalNum))
 fig.savefig('./{}h.png'.format(totalNum))
 
