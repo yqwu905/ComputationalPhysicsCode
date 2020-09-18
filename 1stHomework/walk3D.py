@@ -14,15 +14,16 @@ def randomWalk3D(steps, stepLeng, x0, y0, z0):
         a1 = np.random.random()*2*np.pi
         a2 = np.random.random()*np.pi
         '''
-        x = np.append(x, x[-1] + np.random.random()*steps)
-        y = np.append(z, z[-1] + np.random.random()*steps)
-        z = np.append(z, z[-1] + np.random.random()*steps)
+        #print(x.__len__())
+        x = np.append(x, x[-1] + (np.random.random()-0.5)*stepLeng)
+        y = np.append(z, z[-1] + (np.random.random()-0.5)*stepLeng)
+        z = np.append(z, z[-1] + (np.random.random()-0.5)*stepLeng)
         '''
         x = np.append(x, x[-1] + [stepLeng * np.cos(a1) * np.cos(a2)])
         y = np.append(y, y[-1] + [stepLeng * np.cos(a1) * np.sin(a2)])
         z = np.append(z, z[-1] + [stepLeng * np.sin(a1)])
         '''
-        return x, y, z
+    return x, y, z
 
 totalNum = 5000000
 steps = 200
@@ -34,6 +35,14 @@ xr = np.zeros(totalNum)
 yr = np.zeros(totalNum)
 zr = np.zeros(totalNum)
 r = np.zeros(totalNum)
+
+x, y, z = randomWalk3D(steps, stepLeng, x0, y0, z0)
+'''
+print(x, y, z)
+ax.plot3D(x,y,z,'Gray')
+ax.scatter3D(x,y,z,cmap='Blue')
+plt.show()
+'''
 
 for i in range(totalNum):
     x, y, z = randomWalk3D(steps, stepLeng, x0, y0, z0)
