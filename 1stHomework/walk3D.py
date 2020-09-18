@@ -51,6 +51,8 @@ for i in range(totalNum):
     xr[i] = x[-1]
     yr[i] = y[-1]
     zr[i] = z[-1]
+    if i % int(totalNum/100) == 0:
+        print("{}/{}".format(i,totalNum))
 plt.title('N = {}'.format(totalNum))
 ax.scatter3D(xr,yr,zr,cmap = 'Blues')
 plt.savefig("./{}p.png".format(totalNum))
