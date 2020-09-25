@@ -60,6 +60,7 @@ if __name__ == '__main__':
 	err3 = np.abs(t - d)/t
 	err4 = np.abs(t - k)/t
 	n = np.linspace(1, totalNum, totalNum)
+	plt.figure(figsize = (19.2, 9.68))
 	plt.subplot(2,2,1)
 	plt.title('$S^{(Up)}$ and $S^{(Down)}$')
 	plt.plot(n, u, label = 'Up Sum', linewidth = 3)
@@ -81,5 +82,5 @@ if __name__ == '__main__':
 	plt.plot(n, err4, label = 'Kahan summation Error')
 	plt.legend()
 	#plt.show()
-	plt.savefig('./Sum_{}.png'.format(totalNum))
+	plt.savefig('./Sum_{}.png'.format(totalNum),dpi=10)
 	print('Up sum mean error:{}\nDown sum mean error:{}\nKahan sum error:{}'.format(np.mean(err2), np.mean(err3), np.mean(err4)))
