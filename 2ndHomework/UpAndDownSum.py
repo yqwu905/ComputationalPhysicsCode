@@ -80,5 +80,6 @@ if __name__ == '__main__':
 	plt.plot(n, err3, label = '$S^{Down}$ Error')
 	plt.plot(n, err4, label = 'Kahan summation Error')
 	plt.legend()
-	plt.show()
+	#plt.show()
+	plt.savefig('./Sum_{}.png'.format(totalNum))
 	print('Up sum mean error:{}\nDown sum mean error:{}\nKahan sum error:{}'.format(np.mean(err2), np.mean(err3), np.mean(err4)))
