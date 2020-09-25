@@ -53,7 +53,7 @@ def calcAll(n):
 	return u, d, k, t
 
 if __name__ == '__main__':
-	totalNum = 20000
+	totalNum = 200
 	u, d, k, t = calcAll(totalNum)
 	err1 = (u - d) / (np.abs(u) + np.abs(d))
 	err2 = np.abs(t - u)/t
