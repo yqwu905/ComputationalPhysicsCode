@@ -3,6 +3,9 @@ import numpy as np
 from matplotlib.animation import FuncAnimation
 from math import pi,sin
 from multiprocessing import Pool
+import json
+import time
+from tqdm import *
 
 g = 9.8
 
@@ -81,7 +84,7 @@ class pendulum():
             plt.show()
     def bifurcationDiagram(self):
         x,y,cx,cy = [],[],[],[]
-        for fd in np.linspace(1.35,1.48,200):
+        for fd in tqdm(np.linspace(1.35,1.48,200)):
             self.Fd = fd
             self.calculate(800*pi/self.omegad + 2)
             index = int((600*pi/self.omegad)/self.dt)
@@ -95,44 +98,32 @@ class pendulum():
                         x.append(fd)
                         y.append(self.theta[i])
                     flag += 2*pi
-            y_ = np.array(y)
-            x_ = np.array(x)
-            index_ = x_ == fd
-            ylist = y_[index_]
-            li = [{'c':ylist[0],'list':[ylist[0]]}]
-            for i in ylist[1:]:
-                cflag = False
-                for j in range(len(li)):
-                    if np.abs(i - li[j]['c']) < 0.1:
-                        cflag = True
-                        s_ = li[j]['list']
-                        s_.append(i)
-                        li[j] = {'c':np.mean(s_),'list':s_}
-                if not cflag:
-                    li.append({'c':i,'list':[i]})
-            print(fd, len(li))
-            for i in li:
-                cx.append(fd)
-                cy.append(i['c'])
-        plt.scatter(x,y,s = 5)
-        plt.scatter(cx,cy,color='red', s = 8)
+        print(len(x))
+        plt.scatter(x,y,s = 5,color = 'blue', marker = '.')
+        '''
+        with open('./{}-{}.txt'.format(self.omegad, self.dt),'w') as fp:
+            json.dump([x,y], fp)
+        '''
+        #plt.scatter(cx,cy,color='red', s = 8)
         plt.title("$\Omega_d$={}, dt={}".format(self.omegad,self.dt))
         #plt.show()
         plt.savefig("./{}-{}.png".format(self.omegad, self.dt))
 
 def main():
-    wdList = np.linspace(1/5, 2, 16)
+    wdList = np.linspace(1/5, 2, 12)
     pList = []
-    pool = Pool(processes=8)
+    pool = Pool(processes=12)
     for i in range(len(wdList)):
-        pList.append(pendulum(omegad=wdList[i]))
+        pList.append(pendulum(omegad=wdList[i],dt = 0.001))
         pool.apply_async(pList[i].bifurcationDiagram)
     print('Submit success!')
     pool.close()
     pool.join()
 
 if __name__ == '__main__':
-    main()
+    #main()
+    p = pendulum(Fd = 1.44,dt = 0.001,omegad = 2/3.0)
+    p.bifurcationDiagram()
 
 '''
 p = pendulum(dt = 0.01,omegad = 1/3.0)
