@@ -1,36 +1,42 @@
-import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
-
-def meshSearch(t, m):
-    min = 1000000000000
-    minIJ = [1,1]
-    for i in np.linspace(2, 2.27, 50):
-        for j in np.linspace(1/8-0.05,1/8+0.05,50):
-            T = (i - t) > 0
-            #print(np.power(i-t[T], j))
-            err = np.sum(np.abs(m[T] - np.power(i-t[T], j)))
-            if err < min:
-                print(err, i, j)
-                min = err
-                minIJ = [i,j]
-    return min, minIJ
-
+import numpy as np
 
 if __name__ == '__main__':
     T,M = [],[]
-    with open('data.txt','r',encoding='UTF-8') as fp:
-        data = fp.readlines()
-    for i in data:
-        T.append(float(i.split(',')[0]))
-        M.append(float(i.split(',')[1]))
-    T = np.array(T)
-    M = np.array(M)
-    print(meshSearch(T,M))
-    plt.title("T-M relation")
-    plt.plot(T,M,label='Magnetization')
-
-    plt.xlabel('T')
-    plt.ylabel('M')
-    plt.legend()
+    Tn, Mn, Nn = [],[],[]
+    Tc = 2.27
+    with open("Q1.txt","r") as fp:
+        datas = fp.readlines()
+    for data in datas:
+        T.append(float(data.split(",")[0]))
+        M.append(float(data.split(",")[1]))
+    for i in range(len(T)):
+        if T[i] in Tn:
+            idx = Tn.index(T[i])
+            Mn[idx] += abs(M[i])
+            Nn[idx] += 1
+        else:
+            Tn.append(T[i])
+            Mn.append(abs(M[i]))
+            Nn.append(1)
+    for i in range(len(Tn)):
+        Mn[i] = Mn[i]/Nn[i]
+    Tn = np.array(Tn)
+    Mn = np.array(Mn)
+    idx = Tc - Tn > 0
+    Tn = Tn[idx]
+    Mn = Mn[idx]
+    LogT = np.log(Tc-Tn)
+    LogM = np.log(Mn)
+    popt = np.polyfit(LogT, LogM, deg = 1)
+    print(popt)
+    x = np.linspace(np.min(LogT), np.max(LogT), 50)
+    plt.subplot(1,2,1)
+    plt.title("T-M")
+    plt.scatter(T, M)
+    plt.scatter(Tn, Mn)
+    plt.subplot(1,2,2)
+    plt.title("Log(T)-Log(M)")
+    plt.scatter(LogT,LogM)
+    plt.plot(x, popt[0]*x + popt[1])
     plt.show()
