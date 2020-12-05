@@ -21,7 +21,7 @@ class CapcitorSolver():
         self.v[int(self.size[0]*2/3), int(self.size[1]/4):int(self.size[1]*3/4)] = -1
     def __update(self):
         new = (self.v[0:-2, 1:-1] + self.v[2:, 1:-1] + self.v[1:-1,2:] + self.v[1:-1,0:-2])/4
-        deltaV = np.mean(np.abs(new - self.v[1:-1,1:-1]))
+        deltaV = np.sum(np.abs(new - self.v[1:-1,1:-1]))
         print(deltaV)
         self.v[1:-1,1:-1] = new
         if deltaV > self.r:
