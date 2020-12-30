@@ -10,3 +10,6 @@
 !*.jpg
 !*.cpp
 !*.h
+!*.tex
+!*.bib
+!*.bst

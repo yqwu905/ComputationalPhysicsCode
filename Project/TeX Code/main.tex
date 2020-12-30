@@ -1,6 +1,6 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage[fontset=ubuntu]{ctex}
+\usepackage{ctex}
 \usepackage{ctex}
 \usepackage{cite}
 \usepackage{siunitx}
@@ -228,7 +228,7 @@ $$M = \begin{pmatrix}
 \vdots& & & & &\vdots\\
 0&0&0&0&\cdots&-2
 \end{pmatrix}$$
-由此,我们可以看出,只要求的矩阵A的逆,就能由$\textbf{u}^n$求得$\textbf{u}^{n+1}$:
+由此,我们可以看出,只要求得矩阵A的逆,就能由$\textbf{u}^n$求得$\textbf{u}^{n+1}$:
 \begin{equation}
     \mathbf{u}^{n+1} = A^{-1}\mathbf{u}^n
 \end{equation}
@@ -253,7 +253,7 @@ $$M = \begin{pmatrix}
     1+\frac{4 \alpha \Delta t}{\Delta x^{2}} \sin ^{2}\left(k_{m} \Delta x / 2\right)\geq 1
 \end{equation}
 明显的,由于$\alpha>0,\sin ^{2}\left(k_{m} \Delta x / 2\right)>0$,(3.2.9)对于任何$\Delta t,\Delta x$的组合均成立,即意味着,隐式格式差分的稳定性不依赖于网格参数的选择.\\
-我实现了隐式格式差分计算(代码见附录代码2),并计算了两组不同的$\Delta x-\Delta t$值的组合下体系的行为.结果如图5,图6所示.可以看出,即使体系的$\beta$远大于显示格式差分的稳定阈值(我们最大测试了$beta=50$的情况,此时时间步长为$\Delta t = 1s$),体系仍然能够保持稳定.这也验证了我的预测.
+我实现了隐式格式差分计算(代码见附录代码2),并计算了两组不同的$\Delta x-\Delta t$值的组合下体系的行为.结果如图5,图6所示.可以看出,即使体系的$\beta$远大于显示格式差分的稳定阈值(我们最大测试了$\beta=50$的情况,此时时间步长为$\Delta t = 1s$),体系仍然能够保持稳定.这也验证了我的预测.
 \begin{figure}[H]
 \centering
 \subfigure[t=0]{
@@ -297,6 +297,7 @@ $$M = \begin{pmatrix}
 
 \section{总结}
 本文中,我介绍了分析PDE的有限差分法的稳定性的方法,并以一维扩散方程为例,分别计算了显式和隐式差分方程的稳定性条件.结果表明,对于显式方程,随着空间网格的减小,时间步长也必须随着减小,二者之间关系必须满足(3.1.9)式,否则计算误差将会发散.而对于隐式方程,则是无条件稳定的.我也使用代码分别计算了几种情况下算法的稳定性,结果与理论预测一致.
+\clearpage
 \section{附录}
 \lstinputlisting[
     style       =   Python,
